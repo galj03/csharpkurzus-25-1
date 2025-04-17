@@ -25,25 +25,7 @@ internal class MenuWindow : IWindow
                 //TODO
             }
 
-            //TODO: method
-            var indexModifier = 0;
-            switch (keyInfo.Key)
-            {
-                case ConsoleKey.UpArrow:
-                case ConsoleKey.W:
-                    indexModifier = -1;
-                    break;
-                case ConsoleKey.DownArrow:
-                case ConsoleKey.S:
-                    indexModifier = 1;
-                    break;
-                case ConsoleKey.Enter:
-                    //TODO: handle functionalities
-                    return;
-                    break;
-            }
-
-            ChangeIndexByModifier(indexModifier);
+            ChangeIndex(keyInfo.Key);
         }
     }
 
@@ -61,8 +43,21 @@ internal class MenuWindow : IWindow
         Console.WriteLine();
     }
 
-    private void ChangeIndexByModifier(int indexModifier)
+    private void ChangeIndex(ConsoleKey key)
     {
+        var indexModifier = 0;
+        switch (key)
+        {
+            case ConsoleKey.UpArrow:
+            case ConsoleKey.W:
+                indexModifier = -1;
+                break;
+            case ConsoleKey.DownArrow:
+            case ConsoleKey.S:
+                indexModifier = 1;
+                break;
+        }
+
         _selectedIndex = (_selectedIndex + indexModifier) % _menuOptions.Count;
         if (_selectedIndex < 0)
         {
