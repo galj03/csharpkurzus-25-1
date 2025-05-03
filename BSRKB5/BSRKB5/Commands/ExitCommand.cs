@@ -2,9 +2,8 @@
 [Command("Exit", Text = "Exit")]
 internal class ExitCommand : IMenuCommand
 {
-    public CommandType CommandType => CommandType.MainMenuCommand;
-
     public string Text => "Exit";
+    public uint Order => 99;
 
     public void Execute(string[] args)
     {

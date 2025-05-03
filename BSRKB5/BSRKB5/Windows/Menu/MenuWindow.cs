@@ -40,27 +40,4 @@ internal class MenuWindow : IMenuWindow
         value = value % _menuOptions.Count;
         _selectedIndex = value < 0 ? _menuOptions.Count + value : value;
     }
-
-    //TODO: move to controller???
-    private void ChangeIndex(ConsoleKey key)
-    {
-        var indexModifier = 0;
-        switch (key)
-        {
-            case ConsoleKey.UpArrow:
-            case ConsoleKey.W:
-                indexModifier = -1;
-                break;
-            case ConsoleKey.DownArrow:
-            case ConsoleKey.S:
-                indexModifier = 1;
-                break;
-        }
-
-        SelectedIndex = (SelectedIndex + indexModifier) % _menuOptions.Count;
-        if (SelectedIndex < 0)
-        {
-            SelectedIndex = _menuOptions.Count - 1;
-        }
-    }
 }

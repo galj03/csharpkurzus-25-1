@@ -2,6 +2,7 @@
 
 using BSRKB5.Commands;
 using BSRKB5.Communication;
+using BSRKB5.Windows.Leaderboard;
 using BSRKB5.Windows.Menu;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -30,33 +31,38 @@ public class MinesweeperModule
             return new MenuWindow(menuTexts, consoleOutput);
         });
 
+        serviceCollection.AddSingleton<ILeaderboardWindowController, LeaderBoardWindowController>();
+        serviceCollection.AddSingleton<ILeaderboardWindow>(modules =>
+        {
+            // TODO: other data??
+            var consoleOutput = modules.GetRequiredService<IConsoleOutput>();
+            return new LeaderboardWindow(consoleOutput);
+        });
+
         //TODO: other windows
     }
 
-    //TODO: fix command orders for menu
     private static void RegisterCommands(IServiceCollection serviceCollection)
     {
-        var commands = DiscoverCommands();
+        var commandTypes = GetCommandTypes();
 
-        var menuCommands = commands.Where(c => c is IMenuCommand);
-        foreach (var menuCommand in menuCommands)
+        var menuCommandTypes = commandTypes.Where(t => t.IsAssignableTo(typeof(IMenuCommand)));
+        foreach (var menuCommandType in menuCommandTypes.Reverse())
         {
-            serviceCollection.AddSingleton(typeof(IMenuCommand), menuCommand.GetType());
+            serviceCollection.AddSingleton(typeof(IMenuCommand), menuCommandType);
         }
 
-        var gameCommands = commands.Where(c => c is IGameCommand);
-        foreach (var gameCommand in gameCommands)
+        var gameCommandTypes = commandTypes.Where(t => t.IsAssignableTo(typeof(IGameCommand)));
+        foreach (var gameCommandType in gameCommandTypes)
         {
-            serviceCollection.AddSingleton(typeof(IGameCommand), gameCommand.GetType());
+            serviceCollection.AddSingleton(typeof(IGameCommand), gameCommandType);
         }
     }
 
-    private static IEnumerable<ICommand> DiscoverCommands()
+    private static IEnumerable<Type> GetCommandTypes()
     {
         return Assembly.GetExecutingAssembly().GetTypes()
             .Where(IsCommandType)
-            .Select(Activator.CreateInstance)
-            .OfType<ICommand>()
             .ToList();
     }
 

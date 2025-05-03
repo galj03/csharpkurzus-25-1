@@ -2,9 +2,9 @@
 [Command("Start Game", Text = "Play")]
 internal class StartGameCommand : IMenuCommand
 {
-    public CommandType CommandType => CommandType.MainMenuCommand;
-
     public string Text => "Play";
+
+    public uint Order => 0;
 
     public void Execute(string[] args)
     {

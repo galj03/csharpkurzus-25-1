@@ -20,12 +20,11 @@ internal class MenuWindowController : WindowController, IMenuWindowController
         {
             case ConsoleKey.UpArrow:
             case ConsoleKey.W:
-                //CurrentWindow.SelectedIndex++; //TODO: test if this would work as well
-                _menuWindow.SelectedIndex += 1;
+                _menuWindow.SelectedIndex -= 1;
                 break;
             case ConsoleKey.DownArrow:
             case ConsoleKey.S:
-                _menuWindow.SelectedIndex -= 1;
+                _menuWindow.SelectedIndex += 1;
                 break;
             case ConsoleKey.Enter:
                 var command = _menuCommands[_menuWindow.SelectedIndex];
