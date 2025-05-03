@@ -1,6 +1,21 @@
-﻿using BSRKB5.Windows;
+﻿using BSRKB5.Core;
+using BSRKB5.Windows.Menu;
+
+using Microsoft.Extensions.DependencyInjection;
 
 var menuOptions = new List<string> { "Play", "See leaderboard", "Exit" };   //TODO: get commands using reflection in window
 
-var menu = new MenuWindow(menuOptions);
-menu.ShowWindow();
+try
+{
+    var serviceCollection = new ServiceCollection();
+    MinesweeperModule.LoadModule(serviceCollection);
+    var serviceProvider = serviceCollection.BuildServiceProvider(true);
+
+    var menuController = serviceProvider.GetRequiredService<IMenuWindowController>();
+    menuController.ShowWindow();
+}
+catch (Exception e)
+{
+    Console.Clear();
+    Console.WriteLine($"Unexpected error: {e.Message}");
+}
