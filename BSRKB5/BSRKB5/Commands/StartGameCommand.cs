@@ -10,6 +10,7 @@ internal class StartGameCommand : IMenuCommand
     {
         //TODO: start the game
         // 9x9 grid, with 20 mines
+        // saving result at the end could be an async Task
         throw new NotImplementedException();
     }
 }

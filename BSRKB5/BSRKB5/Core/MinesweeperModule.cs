@@ -47,7 +47,7 @@ public class MinesweeperModule
         var commandTypes = GetCommandTypes();
 
         var menuCommandTypes = commandTypes.Where(t => t.IsAssignableTo(typeof(IMenuCommand)));
-        foreach (var menuCommandType in menuCommandTypes.Reverse())
+        foreach (var menuCommandType in menuCommandTypes.Reverse()) // the reverse is required for the correct order
         {
             serviceCollection.AddSingleton(typeof(IMenuCommand), menuCommandType);
         }
