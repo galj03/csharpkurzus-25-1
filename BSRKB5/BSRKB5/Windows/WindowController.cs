@@ -10,7 +10,7 @@ internal abstract class WindowController : IWindowController
         _consoleInput = consoleInput ?? throw new ArgumentNullException(nameof(consoleInput));
     }
 
-    public void ShowWindow()
+    public virtual void ShowWindow()
     {
         while (true)
         {

@@ -2,7 +2,9 @@
 
 using BSRKB5.Commands;
 using BSRKB5.Communication;
+using BSRKB5.Factories;
 using BSRKB5.Services;
+using BSRKB5.Windows.Game;
 using BSRKB5.Windows.Leaderboard;
 using BSRKB5.Windows.Menu;
 
@@ -15,6 +17,8 @@ public class MinesweeperModule
     {
         serviceCollection.AddSingleton<IConsoleInput, ConsoleInput>();
         serviceCollection.AddSingleton<IConsoleOutput, ConsoleOutput>();
+
+        serviceCollection.AddSingleton<IGameStateFactory, GameStateFactory>();
 
         RegisterWindows(serviceCollection);
 
@@ -29,6 +33,7 @@ public class MinesweeperModule
         {
             return new GameResultService(jsonFileLocation);
         });
+        serviceCollection.AddSingleton<IGameService, GameService>();
     }
 
     private static void RegisterWindows(IServiceCollection serviceCollection)
@@ -45,7 +50,8 @@ public class MinesweeperModule
         serviceCollection.AddSingleton<ILeaderboardWindowController, LeaderboardWindowController>();
         serviceCollection.AddSingleton<ILeaderboardWindow, LeaderboardWindow>();
 
-        //TODO: other windows
+        serviceCollection.AddSingleton<IGameWindowController, GameWindowController>();
+        serviceCollection.AddSingleton<IGameWindow, GameWindow>();
     }
 
     private static void RegisterCommands(IServiceCollection serviceCollection)
