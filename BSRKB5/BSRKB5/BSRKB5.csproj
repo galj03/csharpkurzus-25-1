@@ -15,4 +15,10 @@
       <Folder Include="_Data\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="_Data\leaderboard.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

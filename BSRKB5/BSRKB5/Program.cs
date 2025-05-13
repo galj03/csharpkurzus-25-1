@@ -3,12 +3,12 @@ using BSRKB5.Windows.Menu;
 
 using Microsoft.Extensions.DependencyInjection;
 
-var menuOptions = new List<string> { "Play", "See leaderboard", "Exit" };   //TODO: get commands using reflection in window
-
 try
 {
+    var jsonFileLocation = Path.Combine(AppContext.BaseDirectory, "_Data", "leaderboard.json");
+
     var serviceCollection = new ServiceCollection();
-    MinesweeperModule.LoadModule(serviceCollection);
+    MinesweeperModule.LoadModule(serviceCollection, jsonFileLocation);
     var serviceProvider = serviceCollection.BuildServiceProvider(true);
 
     var menuController = serviceProvider.GetRequiredService<IMenuWindowController>();

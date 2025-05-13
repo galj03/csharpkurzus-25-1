@@ -2,6 +2,7 @@
 
 using BSRKB5.Commands;
 using BSRKB5.Communication;
+using BSRKB5.Services;
 using BSRKB5.Windows.Leaderboard;
 using BSRKB5.Windows.Menu;
 
@@ -10,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace BSRKB5.Core;
 public class MinesweeperModule
 {
-    public static void LoadModule(IServiceCollection serviceCollection)
+    public static void LoadModule(IServiceCollection serviceCollection, string jsonFileLocation)
     {
         serviceCollection.AddSingleton<IConsoleInput, ConsoleInput>();
         serviceCollection.AddSingleton<IConsoleOutput, ConsoleOutput>();
@@ -18,6 +19,16 @@ public class MinesweeperModule
         RegisterWindows(serviceCollection);
 
         RegisterCommands(serviceCollection);
+
+        RegisterServices(serviceCollection, jsonFileLocation);
+    }
+
+    private static void RegisterServices(IServiceCollection serviceCollection, string jsonFileLocation)
+    {
+        serviceCollection.AddSingleton<IGameResultService>(modules =>
+        {
+            return new GameResultService(jsonFileLocation);
+        });
     }
 
     private static void RegisterWindows(IServiceCollection serviceCollection)
@@ -47,7 +58,7 @@ public class MinesweeperModule
         var commandTypes = GetCommandTypes();
 
         var menuCommandTypes = commandTypes.Where(t => t.IsAssignableTo(typeof(IMenuCommand)));
-        foreach (var menuCommandType in menuCommandTypes.Reverse()) // the reverse is required for the correct order
+        foreach (var menuCommandType in menuCommandTypes.Reverse()) // the reverse is required for the correct order when injecting
         {
             serviceCollection.AddSingleton(typeof(IMenuCommand), menuCommandType);
         }
