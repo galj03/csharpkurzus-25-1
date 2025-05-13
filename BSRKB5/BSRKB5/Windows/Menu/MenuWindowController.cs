@@ -14,8 +14,10 @@ internal class MenuWindowController : WindowController, IMenuWindowController
         _menuCommands = menuCommands?.ToList() ?? throw new ArgumentNullException(nameof(menuCommands));
     }
 
-    protected override void HandleInput(ConsoleKeyInfo keyInfo)
+    protected override void HandleInput(ConsoleKeyInfo keyInfo, out bool isExit)
     {
+        isExit = false;
+
         switch (keyInfo.Key)
         {
             case ConsoleKey.UpArrow:

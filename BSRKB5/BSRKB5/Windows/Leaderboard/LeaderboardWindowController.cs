@@ -13,14 +13,15 @@ internal class LeaderboardWindowController : WindowController, ILeaderboardWindo
         _leaderboardWindow = leaderboardWindow ?? throw new ArgumentNullException(nameof(leaderboardWindow));
     }
 
-    protected override void HandleInput(ConsoleKeyInfo keyInfo)
+    protected override void HandleInput(ConsoleKeyInfo keyInfo, out bool isExit)
     {
+        isExit = false;
+
         switch (keyInfo.Key)
         {
             case ConsoleKey.Q:
             case ConsoleKey.Escape:
-                //TODO: back to menu with no memory leaks
-                //TODO: do this with commands as well?
+                isExit = true;
                 break;
         }
     }

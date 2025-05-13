@@ -28,6 +28,6 @@ internal class LeaderboardWindow : ILeaderboardWindow
             _consoleOutput.WriteLine($"{i+1}. {gameResults[i].Name} - {gameResults[i].Time}");
         }
 
-        _consoleOutput.WriteLine("\nTODO: footer");
+        _consoleOutput.WriteLine("\nq - Back to menu");
     }
 }

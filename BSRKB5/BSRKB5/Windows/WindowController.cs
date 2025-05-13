@@ -18,10 +18,15 @@ internal abstract class WindowController : IWindowController
 
             var keyInfo = _consoleInput.ReadKey();
 
-            HandleInput(keyInfo);
+            HandleInput(keyInfo, out bool isExit);
+
+            if (isExit)
+            {
+                break;
+            }
         }
     }
 
     protected abstract void PrintContent();
-    protected abstract void HandleInput(ConsoleKeyInfo keyInfo);
+    protected abstract void HandleInput(ConsoleKeyInfo keyInfo, out bool isExit);
 }
