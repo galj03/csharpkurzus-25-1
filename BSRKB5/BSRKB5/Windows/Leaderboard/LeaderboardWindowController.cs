@@ -1,11 +1,11 @@
 ﻿using BSRKB5.Communication;
 
 namespace BSRKB5.Windows.Leaderboard;
-internal class LeaderBoardWindowController : WindowController, ILeaderboardWindowController
+internal class LeaderboardWindowController : WindowController, ILeaderboardWindowController
 {
     private readonly ILeaderboardWindow _leaderboardWindow;
 
-    public LeaderBoardWindowController(
+    public LeaderboardWindowController(
         IConsoleInput consoleInput,
         ILeaderboardWindow leaderboardWindow)
         : base(consoleInput)
@@ -27,6 +27,6 @@ internal class LeaderBoardWindowController : WindowController, ILeaderboardWindo
 
     protected override void PrintContent()
     {
-        _leaderboardWindow.PrintContent(); //TODO: how do I get the data?
+        _leaderboardWindow.PrintContent();
     }
 }

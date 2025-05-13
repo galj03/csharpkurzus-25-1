@@ -42,13 +42,8 @@ public class MinesweeperModule
             return new MenuWindow(menuTexts, consoleOutput);
         });
 
-        serviceCollection.AddSingleton<ILeaderboardWindowController, LeaderBoardWindowController>();
-        serviceCollection.AddSingleton<ILeaderboardWindow>(modules =>
-        {
-            // TODO: other data??
-            var consoleOutput = modules.GetRequiredService<IConsoleOutput>();
-            return new LeaderboardWindow(consoleOutput);
-        });
+        serviceCollection.AddSingleton<ILeaderboardWindowController, LeaderboardWindowController>();
+        serviceCollection.AddSingleton<ILeaderboardWindow, LeaderboardWindow>();
 
         //TODO: other windows
     }

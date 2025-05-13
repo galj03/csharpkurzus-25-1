@@ -1,5 +1,18 @@
 [
   {
-    "TODO":  "json file format"
+    "name": "Test Data 1",
+    "time": "0.00:10:01"
+  },
+  {
+    "name": "Test Data 2",
+    "time": "0.00:15:00"
+  },
+  {
+    "name": "Test Data 3",
+    "time": "0.00:00:45"
+  },
+  {
+    "name": "Test Data 4",
+    "time": "0.01:01:01"
   }
 ]
