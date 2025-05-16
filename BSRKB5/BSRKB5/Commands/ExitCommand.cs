@@ -1,9 +1,11 @@
-﻿namespace BSRKB5.Commands;
-[Command("Exit", Text = "Exit")]
+﻿using static BSRKB5.Constants;
+
+namespace BSRKB5.Commands;
+[Command("Exit", Text = MenuCommands.EXIT_TEXT)]
 internal class ExitCommand : IMenuCommand
 {
-    public string Text => "Exit";
-    public uint Order => 99;
+    public string Text => MenuCommands.EXIT_TEXT;
+    public uint Order => 66;
 
     public void Execute(string[] args)
     {

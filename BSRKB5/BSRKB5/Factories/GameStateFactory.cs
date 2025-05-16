@@ -23,12 +23,12 @@ internal class GameStateFactory : IGameStateFactory
         var boolGrid = GenerateBombLocations(height, width, bombs);
 
         IList<IList<GameField>> grid = [];
-        for (int i = 0; i < height; i++)
+        for (uint i = 0; i < height; i++)
         {
             var gameFieldRow = new List<GameField>();
-            for (int j = 0; j < width; j++)
+            for (uint j = 0; j < width; j++)
             {
-                var gameField = new GameField(boolGrid[i, j], GameFieldStates.NOT_DISCOVERED);
+                var gameField = new GameField(boolGrid[i, j], GameFieldStates.NOT_DISCOVERED, i, j);
                 gameFieldRow.Add(gameField);
             }
 

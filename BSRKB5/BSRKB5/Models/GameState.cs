@@ -8,6 +8,7 @@ internal class GameState
     public int Height { get; }
 
     public bool IsFinished { get; set; }
+    public bool IsWon { get; set; }
 
     public GameState(IList<IList<GameField>> grid)
     {
@@ -18,5 +19,6 @@ internal class GameState
         RowIndex = 0;
         ColumnIndex = 0;
         IsFinished = false;
+        IsWon = false;
     }
 }

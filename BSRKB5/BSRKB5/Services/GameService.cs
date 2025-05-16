@@ -11,6 +11,7 @@ internal class GameService : IGameService
     private GameState _gameStateInstance;
     private readonly IGameStateFactory _gameStateFactory;
     private DateTime _startTime;
+    private DateTime _endTime;
 
     public GameService(IGameStateFactory gameStateFactory)
     {
@@ -19,7 +20,10 @@ internal class GameService : IGameService
 
     public void StartGame()
     {
-        _gameStateInstance = _gameStateFactory.Create(9, 9, 20);
+        _gameStateInstance = _gameStateFactory.Create(
+            GameDefaults.MAP_HEIGHT,
+            GameDefaults.MAP_WIDTH,
+            GameDefaults.BOMBS_COUNT);
         _startTime = DateTime.Now;
     }
 
@@ -38,23 +42,58 @@ internal class GameService : IGameService
             case GameFieldChange.Safe:
                 if (currentGameField.IsBomb)
                 {
-                    //TODO: if bomb, then game is finished with a loss
-                    _gameStateInstance.IsFinished = true;
+                    FinishGame(false);
                 }
                 else
                 {
-                    //TODO: show values, recursively
+                    RevealField(currentGameField);
 
                     //maybe store how many safe squares have been located
-                    //TODO: if win, then:
-                    // 1. calculate TimeSpan
-                    // 2. Get name
-                    // 3. Save + Exit
+                    if (false) //TODO: win condition
+                    {
+                        FinishGame(true);
+                    }
                 }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(gameFieldChange));
         }
+    }
+
+    private void RevealField(GameField currentGameField)
+    {
+        if (currentGameField.State[0] >= '0' && currentGameField.State[0] < '9')
+        {
+            return;
+        }
+
+        IEnumerable<GameField> neighbors = GetNeighboringFields(currentGameField);
+
+        var bombsCount = 0;
+        foreach (GameField neighbor in neighbors)
+        {
+            if (neighbor.IsBomb)
+            {
+                bombsCount++;
+            }
+        }
+
+        currentGameField.State = bombsCount.ToString();
+        if (bombsCount == 0)
+        {
+            foreach (GameField neighbor in neighbors)
+            {
+                RevealField(neighbor);
+            }
+        }
+    }
+
+    private IEnumerable<GameField> GetNeighboringFields(GameField currentGameField)
+    {
+        var neighbors = new List<GameField>();
+        //TODO: lekezelni a 8 esetet, es hozzaadni, ami van
+
+        throw new NotImplementedException();
     }
 
     public GameField GetCurrentGameField()
@@ -64,7 +103,6 @@ internal class GameService : IGameService
 
     public string GetGameStateAsString()
     {
-        //TODO: highlight current somehow
         var result = "";
         for (int i = 0; i < _gameStateInstance.Height; i++)
         {
@@ -126,5 +164,22 @@ internal class GameService : IGameService
     public bool IsGameFinished()
     {
         return _gameStateInstance.IsFinished;
+    }
+
+    public bool IsGameWon()
+    {
+        return _gameStateInstance.IsWon;
+    }
+
+    public TimeSpan GetGameTime()
+    {
+        return IsGameFinished() ? (_endTime - _startTime) : TimeSpan.Zero;
+    }
+
+    private void FinishGame(bool isWon)
+    {
+        _gameStateInstance.IsFinished = true;
+        _endTime = DateTime.Now;
+        _gameStateInstance.IsWon = isWon;
     }
 }

@@ -64,9 +64,15 @@ internal class GameWindowController : WindowController, IGameWindowController
 
         if (_gameWindow.GameService.IsGameFinished())
         {
-            //TODO: retrieve name and save result
+            if (_gameWindow.GameService.IsGameWon())
+            {
+                //TODO: retrieve name and save result
+            }
+            else
+            {
+                //TODO: if lost, then show a message -> exit with q
+            }
 
-            //after, or if lost, then go back to main menu
             isExit = true;
         }
     }

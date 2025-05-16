@@ -1,7 +1,9 @@
 ﻿using BSRKB5.Windows.Leaderboard;
 
+using static BSRKB5.Constants;
+
 namespace BSRKB5.Commands;
-[Command("Show leaderboard", Text = "See leaderboard")]
+[Command("Show leaderboard", Text = MenuCommands.LEADERBOARD_TEXT)]
 internal class ShowLeaderboardCommand : IMenuCommand
 {
     private readonly ILeaderboardWindowController _leaderboardWindowController;
@@ -12,7 +14,7 @@ internal class ShowLeaderboardCommand : IMenuCommand
             ?? throw new ArgumentNullException(nameof(leaderboardWindowController));
     }
 
-    public string Text => "See leaderboard"; // TODO: constant texts, DRY
+    public string Text => MenuCommands.LEADERBOARD_TEXT;
     public uint Order => 5;
 
     public void Execute(string[] args)

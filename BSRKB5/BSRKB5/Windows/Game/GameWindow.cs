@@ -22,6 +22,10 @@ internal class GameWindow : IGameWindow
 
         _consoleOutput.WriteLine(GameService.GetGameStateAsString());
 
-        _consoleOutput.WriteLine("\nq - Back to menu"); //TODO: moves
+        _consoleOutput.WriteLine("\nW, A, S, D (or arrows) - Movement");
+        _consoleOutput.WriteLine("f - Flag field");
+        _consoleOutput.WriteLine("g - Question field");
+        _consoleOutput.WriteLine("h - Mark field as safe");
+        _consoleOutput.WriteLine("q - Back to menu");
     }
 }
