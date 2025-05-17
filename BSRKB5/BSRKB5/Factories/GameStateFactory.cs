@@ -15,7 +15,7 @@ internal class GameStateFactory : IGameStateFactory
         ArgumentOutOfRangeException.ThrowIfGreaterThan(bombs, height * width);
 
         var grid = GenerateGrid(height, width, bombs);
-        return new GameState(grid);
+        return new GameState(grid, bombs);
     }
 
     private IList<IList<GameField>> GenerateGrid(int height, int width, int bombs)
@@ -23,10 +23,10 @@ internal class GameStateFactory : IGameStateFactory
         var boolGrid = GenerateBombLocations(height, width, bombs);
 
         IList<IList<GameField>> grid = [];
-        for (uint i = 0; i < height; i++)
+        for (int i = 0; i < height; i++)
         {
             var gameFieldRow = new List<GameField>();
-            for (uint j = 0; j < width; j++)
+            for (int j = 0; j < width; j++)
             {
                 var gameField = new GameField(boolGrid[i, j], GameFieldStates.NOT_DISCOVERED, i, j);
                 gameFieldRow.Add(gameField);

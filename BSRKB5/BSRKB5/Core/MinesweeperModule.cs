@@ -5,6 +5,8 @@ using BSRKB5.Communication;
 using BSRKB5.Factories;
 using BSRKB5.Services;
 using BSRKB5.Windows.Game;
+using BSRKB5.Windows.GameLost;
+using BSRKB5.Windows.GameWon;
 using BSRKB5.Windows.Leaderboard;
 using BSRKB5.Windows.Menu;
 
@@ -18,13 +20,19 @@ public class MinesweeperModule
         serviceCollection.AddSingleton<IConsoleInput, ConsoleInput>();
         serviceCollection.AddSingleton<IConsoleOutput, ConsoleOutput>();
 
-        serviceCollection.AddSingleton<IGameStateFactory, GameStateFactory>();
+        RegisterFactories(serviceCollection);
 
         RegisterWindows(serviceCollection);
 
         RegisterCommands(serviceCollection);
 
         RegisterServices(serviceCollection, jsonFileLocation);
+    }
+
+    private static void RegisterFactories(IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddSingleton<IGameStateFactory, GameStateFactory>();
+        serviceCollection.AddSingleton<IGameResultFactory, GameResultFactory>();
     }
 
     private static void RegisterServices(IServiceCollection serviceCollection, string jsonFileLocation)
@@ -52,6 +60,12 @@ public class MinesweeperModule
 
         serviceCollection.AddSingleton<IGameWindowController, GameWindowController>();
         serviceCollection.AddSingleton<IGameWindow, GameWindow>();
+
+        serviceCollection.AddSingleton<IGameWonWindowController, GameWonWindowController>();
+        serviceCollection.AddSingleton<IGameWonWindow, GameWonWindow>();
+
+        serviceCollection.AddSingleton<IGameLostWindowController, GameLostWindowController>();
+        serviceCollection.AddSingleton<IGameLostWindow, GameLostWindow>();
     }
 
     private static void RegisterCommands(IServiceCollection serviceCollection)

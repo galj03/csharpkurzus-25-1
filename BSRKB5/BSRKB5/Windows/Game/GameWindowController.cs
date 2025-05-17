@@ -1,17 +1,25 @@
 ﻿using BSRKB5.Communication;
 using BSRKB5.Enums;
+using BSRKB5.Windows.GameLost;
+using BSRKB5.Windows.GameWon;
 
 namespace BSRKB5.Windows.Game;
 internal class GameWindowController : WindowController, IGameWindowController
 {
     private readonly IGameWindow _gameWindow;
+    private readonly IGameWonWindowController _gameWonWindowController;
+    private readonly IGameLostWindowController _gameLostWindowController;
 
     public GameWindowController(
         IConsoleInput consoleInput,
-        IGameWindow gameWindow)
+        IGameWindow gameWindow,
+        IGameWonWindowController gameWonWindowController,
+        IGameLostWindowController gameLostWindowController)
         : base(consoleInput)
     {
         _gameWindow = gameWindow ?? throw new ArgumentNullException(nameof(gameWindow));
+        _gameWonWindowController = gameWonWindowController ?? throw new ArgumentNullException(nameof(gameWonWindowController));
+        _gameLostWindowController = gameLostWindowController ?? throw new ArgumentNullException(nameof(gameLostWindowController));
     }
 
     public override void ShowWindow()
@@ -66,11 +74,12 @@ internal class GameWindowController : WindowController, IGameWindowController
         {
             if (_gameWindow.GameService.IsGameWon())
             {
-                //TODO: retrieve name and save result
+                _gameWonWindowController.SetGameTime(_gameWindow.GameService.GetGameTime());
+                _gameWonWindowController.ShowWindow();
             }
             else
             {
-                //TODO: if lost, then show a message -> exit with q
+                _gameLostWindowController.ShowWindow();
             }
 
             isExit = true;

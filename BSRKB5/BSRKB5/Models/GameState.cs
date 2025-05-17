@@ -6,11 +6,12 @@ internal class GameState
     public int ColumnIndex { get; set; }
     public int Width { get; }
     public int Height { get; }
+    public int BombCount { get; }
 
     public bool IsFinished { get; set; }
     public bool IsWon { get; set; }
 
-    public GameState(IList<IList<GameField>> grid)
+    public GameState(IList<IList<GameField>> grid, int bombCount)
     {
         Grid = grid ?? throw new ArgumentNullException(nameof(grid));
         Height = grid.Count;
@@ -20,5 +21,6 @@ internal class GameState
         ColumnIndex = 0;
         IsFinished = false;
         IsWon = false;
+        BombCount = bombCount;
     }
 }
