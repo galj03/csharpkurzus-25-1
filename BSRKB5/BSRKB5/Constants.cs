@@ -5,7 +5,7 @@ public static class Constants
     {
         public const int MAP_WIDTH = 9;
         public const int MAP_HEIGHT = 9;
-        public const int BOMBS_COUNT = 20;
+        public const int BOMBS_COUNT = 15;
     }
 
     public static class GameFieldStates

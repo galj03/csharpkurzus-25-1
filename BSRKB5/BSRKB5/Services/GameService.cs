@@ -12,6 +12,7 @@ internal class GameService : IGameService
     private readonly IGameStateFactory _gameStateFactory;
     private DateTime _startTime;
     private DateTime _endTime;
+    private int _safeSquares;
 
     public GameService(IGameStateFactory gameStateFactory)
     {
@@ -25,6 +26,7 @@ internal class GameService : IGameService
             GameDefaults.MAP_WIDTH,
             GameDefaults.BOMBS_COUNT);
         _startTime = DateTime.Now;
+        _safeSquares = 0;
     }
 
     public void ChangeCurrentGameField(GameFieldChange gameFieldChange)
@@ -48,8 +50,9 @@ internal class GameService : IGameService
                 {
                     RevealField(currentGameField);
 
-                    //maybe store how many safe squares have been located
-                    if (false) //TODO: win condition
+                    int fieldCount = _gameStateInstance.Width * _gameStateInstance.Height;
+                    int fieldsRemaining = fieldCount - _safeSquares;
+                    if (fieldsRemaining == _gameStateInstance.BombCount)
                     {
                         FinishGame(true);
                     }
@@ -66,6 +69,8 @@ internal class GameService : IGameService
         {
             return;
         }
+
+        _safeSquares++;
 
         IEnumerable<GameField> neighbors = GetNeighboringFields(currentGameField);
 
@@ -91,9 +96,23 @@ internal class GameService : IGameService
     private IEnumerable<GameField> GetNeighboringFields(GameField currentGameField)
     {
         var neighbors = new List<GameField>();
-        //TODO: lekezelni a 8 esetet, es hozzaadni, ami van
 
-        throw new NotImplementedException();
+        var rowMinimum = Math.Max(0, currentGameField.Row - 1);
+        var rowMaximum = Math.Min(_gameStateInstance.Height - 1, currentGameField.Row + 1);
+        var columnMinimum = Math.Max(0, currentGameField.Column - 1);
+        var columnMaximum = Math.Min(_gameStateInstance.Width - 1, currentGameField.Column + 1);
+        for (int i = rowMinimum; i <= rowMaximum; i++)
+        {
+            for (int j = columnMinimum; j <= columnMaximum; j++)
+            {
+                if (!(i == currentGameField.Row && j == currentGameField.Column))
+                {
+                    neighbors.Add(_gameStateInstance.Grid[i][j]);
+                }
+            }
+        }
+
+        return neighbors;
     }
 
     public GameField GetCurrentGameField()
