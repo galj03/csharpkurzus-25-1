@@ -1,16 +1,16 @@
 ﻿using BSRKB5.Communication;
-using BSRKB5.Services;
+using BSRKB5.Models;
 
 namespace BSRKB5.Windows.Leaderboard;
 internal class LeaderboardWindow : ILeaderboardWindow
 {
-    private readonly IConsoleOutput _consoleOutput;
-    private readonly IGameResultService _gameResultService;
+    public IList<GameResult> GameResults { get; set; } = [];
 
-    public LeaderboardWindow(IConsoleOutput consoleOutput, IGameResultService gameResultService)
+    private readonly IConsoleOutput _consoleOutput;
+
+    public LeaderboardWindow(IConsoleOutput consoleOutput)
     {
         _consoleOutput = consoleOutput ?? throw new ArgumentNullException(nameof(consoleOutput));
-        _gameResultService = gameResultService ?? throw new ArgumentNullException(nameof(gameResultService));
     }
 
     public void PrintContent()
@@ -21,11 +21,11 @@ internal class LeaderboardWindow : ILeaderboardWindow
 
         _consoleOutput.WriteLine("TOP 10:\n");
 
-        var gameResults = _gameResultService.LoadResultsFromFile().OrderBy(gr => gr.Time).ToList();
-        var leaderboardMembersCount = Math.Min(gameResults.Count, 10);
+        var leaderboardMembersCount = Math.Min(GameResults.Count, 10);
         for (int i = 0; i < leaderboardMembersCount; i++)
         {
-            _consoleOutput.WriteLine($"{i+1}. {gameResults[i].Name} - {gameResults[i].Time}");
+            var gameTime = GameResults[i].Time;
+            _consoleOutput.WriteLine($"{i + 1}. {GameResults[i].Name} - {gameTime.ToString(@"mm\:ss")}");
         }
 
         _consoleOutput.WriteLine("\nq - Back to menu");

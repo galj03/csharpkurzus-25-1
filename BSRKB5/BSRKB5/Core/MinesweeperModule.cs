@@ -77,12 +77,6 @@ public class MinesweeperModule
         {
             serviceCollection.AddSingleton(typeof(IMenuCommand), menuCommandType);
         }
-
-        var gameCommandTypes = commandTypes.Where(t => t.IsAssignableTo(typeof(IGameCommand)));
-        foreach (var gameCommandType in gameCommandTypes)
-        {
-            serviceCollection.AddSingleton(typeof(IGameCommand), gameCommandType);
-        }
     }
 
     private static IEnumerable<Type> GetCommandTypes()

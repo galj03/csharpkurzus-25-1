@@ -18,6 +18,6 @@ internal class GameWonWindow : IGameWonWindow
         _consoleOutput.WriteLine("----------------------\n");
 
         _consoleOutput.WriteLine("\nYou won the game.");
-        _consoleOutput.WriteLine("Enter your name to save your time result: ");
+        _consoleOutput.Write("Enter your name to save your time result: ");
     }
 }

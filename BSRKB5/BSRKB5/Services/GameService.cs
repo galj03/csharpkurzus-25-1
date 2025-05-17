@@ -36,10 +36,16 @@ internal class GameService : IGameService
         switch (gameFieldChange)
         {
             case GameFieldChange.Flag:
-                currentGameField.State = GameFieldStates.FLAGGED;
+                if (currentGameField.State == "#" || currentGameField.State == "?")
+                {
+                    currentGameField.State = GameFieldStates.FLAGGED;
+                }
                 break;
             case GameFieldChange.Question:
-                currentGameField.State = GameFieldStates.QUESTIONED;
+                if (currentGameField.State == "#" || currentGameField.State == "!")
+                {
+                    currentGameField.State = GameFieldStates.QUESTIONED;
+                }
                 break;
             case GameFieldChange.Safe:
                 if (currentGameField.IsBomb)
